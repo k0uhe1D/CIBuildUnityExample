@@ -4,6 +4,7 @@ using UnityEngine;
 public static class BuildExecutor
 {
 
+    [MenuItem("Build/Build App")]
     public static void Build()
     {
         var buildTarget = EditorUserBuildSettings.activeBuildTarget;
