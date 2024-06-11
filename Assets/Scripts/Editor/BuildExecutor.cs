@@ -3,15 +3,35 @@ using UnityEngine;
 
 public static class BuildExecutor
 {
-
     [MenuItem("Build/Build App")]
     public static void Build()
     {
+        Debug.Log("Starting Build Process");
+
         var buildTarget = EditorUserBuildSettings.activeBuildTarget;
+        Debug.Log("Current Build Target: " + buildTarget);
+
         var scenes = GetScenes();
+        Debug.Log("Scenes to Build: " + string.Join(", ", scenes));
+
         var path = GetPath(buildTarget);
-        
-        BuildPipeline.BuildPlayer(scenes, path, buildTarget, BuildOptions.Development);
+        Debug.Log("Build Path: " + path);
+
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("Invalid build path.");
+            return;
+        }
+
+        var report = BuildPipeline.BuildPlayer(scenes, path, buildTarget, BuildOptions.Development);
+        if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
+        {
+            Debug.Log("Build Succeeded: " + report.summary.totalSize + " bytes");
+        }
+        else
+        {
+            Debug.LogError("Build Failed");
+        }
     }
 
     private static string[] GetScenes()
@@ -42,5 +62,4 @@ public static class BuildExecutor
                 return null;
         }
     }
-
 }
