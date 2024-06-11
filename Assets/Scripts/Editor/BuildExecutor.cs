@@ -8,7 +8,8 @@ public static class BuildExecutor
     {
         Debug.Log("Starting Build Process");
 
-        var buildTarget = EditorUserBuildSettings.activeBuildTarget;
+        // var buildTarget = EditorUserBuildSettings.activeBuildTarget;
+        var buildTarget = BuildTarget.Android; // 明示的にAndroidを設定
         Debug.Log("Current Build Target: " + buildTarget);
 
         var scenes = GetScenes();
